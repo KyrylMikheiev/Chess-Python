@@ -4,6 +4,7 @@ class AppState:
         self.running = True
         self.current_menu = "main"
         self.board = None
+        self.is_players_color_white = None
         
     def get_running_state(self):
         return self.running
