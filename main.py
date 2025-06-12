@@ -2,11 +2,18 @@ import pygame
 
 pygame.init()
 
-from utils import WIDTH, WINDOW, FPS, clock, title_font, BG_COLOR
+from utils import WIDTH, WINDOW, FPS, clock, title_font, BG_COLOR, IMAGES, x_offset, y_offset, SQUARE_SIZE
 from menus import get_menu
 from app_state import AppState
 
-def main():
+def draw_pieces(board):
+     for r in range(8):
+        for c in range(8):
+            piece = board.get_pieces_array()[r][c]
+            if piece != "--":
+                WINDOW.blit(IMAGES[piece], pygame.Rect(x_offset + c*SQUARE_SIZE - 3, y_offset + r*SQUARE_SIZE - 5, SQUARE_SIZE, SQUARE_SIZE))
+
+def main(): 
     state = AppState()
 
     # Get initial menu
@@ -21,6 +28,8 @@ def main():
             board = state.get_board()
             if board:
                 board.draw_board()
+                draw_pieces(board)
+               
         else:
             if not current_buttons:  # only repopulate if empty
                 current_buttons = get_menu(state.get_current_menu())
