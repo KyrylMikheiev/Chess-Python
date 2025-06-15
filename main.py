@@ -16,15 +16,20 @@ def main():
     selected_square = ()
     player_clicks = [] #two tuples
     gs = None
+    move = None
+    valid_moves = None
+    move_made = False
     
     while state.get_running_state():
         mouse_pos = pygame.mouse.get_pos()
         WINDOW.fill(BG_COLOR)
         
         if state.get_current_menu() == "game":
-            current_buttons = []
+            # current_buttons = []
             if not gs:
                 gs = chess_engine.GameState(state.is_players_color_white)
+                valid_moves = gs.get_valid_moves()
+            
             draw_game_state(WINDOW, gs)
         else:
             if not current_buttons:  # only repopulate if empty (after chessgame)
@@ -60,9 +65,24 @@ def main():
 
                     if len(player_clicks) == 2:
                         move = chess_engine.Move(player_clicks[0], player_clicks[1], gs.board)
-                        gs.make_move(move)
+                        # print(move.moveID)
+                        if move in valid_moves:
+                            gs.make_move(move)
+                            move_made = True
                         selected_square = ()
                         player_clicks = []
+                        
+            
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_z and event.mod & pygame.KMOD_CTRL:
+                    gs.undo_move()
+                    move_made = True
+                    
+        if move_made:
+            
+            valid_moves = gs.get_valid_moves()
+            move_made = False
+                    
 
         pygame.display.update()
         clock.tick(FPS)
