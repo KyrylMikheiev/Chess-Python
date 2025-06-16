@@ -30,7 +30,7 @@ def main():
                 gs = chess_engine.GameState(state.is_players_color_white)
                 valid_moves = gs.get_valid_moves()
             
-            draw_game_state(WINDOW, gs)
+            draw_game_state(WINDOW, gs, selected_square)
         else:
             if not current_buttons:  # only repopulate if empty (after chessgame)
                 current_buttons = get_menu(state.get_current_menu())
@@ -79,7 +79,7 @@ def main():
                     move_made = True
                     
         if move_made:
-            
+            # print("MOVE WAS MADE")
             valid_moves = gs.get_valid_moves()
             move_made = False
                     
@@ -89,15 +89,18 @@ def main():
 
     pygame.quit()
     
-def draw_game_state(screen, gs):
-    draw_board(screen, gs.is_players_color_white)
+def draw_game_state(screen, gs, selected_square):
+    draw_board(screen, gs.is_players_color_white, selected_square)
     draw_pieces(screen, gs.board)
     
-def draw_board(screen, is_players_color_white):
+def draw_board(screen, is_players_color_white, selected_square):
     for i in range(8):
         for j in range(8):
             rect = pygame.Rect(j*SQUARE_SIZE + x_offset, i*SQUARE_SIZE + y_offset, SQUARE_SIZE, SQUARE_SIZE)
-            pygame.draw.rect(screen, WHITE if (i + j) % 2 == 0 else BLACK, rect)
+            if selected_square == (i, j):
+                pygame.draw.rect(screen, "purple", rect)
+            else:
+                pygame.draw.rect(screen, WHITE if (i + j) % 2 == 0 else BLACK, rect)
             if j == 0:
                 char_text = char_font.render(str(8-i) if is_players_color_white else str(i + 1), True, BLACK if i % 2 == 0 else WHITE)
                 screen.blit(char_text, (j*SQUARE_SIZE + x_offset + 5, i*SQUARE_SIZE + y_offset + 5))
