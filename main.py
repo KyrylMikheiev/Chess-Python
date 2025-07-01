@@ -64,13 +64,21 @@ def main():
                         player_clicks.append(selected_square)
 
                     if len(player_clicks) == 2:
-                        move = chess_engine.Move(player_clicks[0], player_clicks[1], gs.board)
+                        move = chess_engine.Move(player_clicks[0], player_clicks[1], gs.board, gs=gs)
                         # print(move.moveID)
-                        if move in valid_moves:
-                            gs.make_move(move)
-                            move_made = True
-                        selected_square = ()
-                        player_clicks = []
+                        for i in range(len(valid_moves)):
+                            if move == valid_moves[i]:
+                                gs.make_move(valid_moves[i])
+                                move_made = True
+                                selected_square = ()
+                                player_clicks = []
+                        if not move_made:
+                            player_clicks = [selected_square]
+                        # if move in valid_moves:
+                        #     gs.make_move(move)
+                        #     move_made = True
+                        # selected_square = ()
+                        # player_clicks = []
                         
             
             elif event.type == pygame.KEYDOWN:
