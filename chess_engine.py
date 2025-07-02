@@ -490,15 +490,17 @@ class GameState:
                         if self.board[r-1][c-1][0] == "b" and i_am_white_and_to_move or (self.board[r-1][c-1][0] == "w" and i_am_black_and_to_move):
                             moves.append(Move((r, c), (r-1, c - 1), self.board, gs=self)) 
                             # #print("i can capture with a pawn on left")
-                        elif self.possible_en_passant_end_square == (r-1, c-1) and i_am_white_and_to_move or i_am_black_and_to_move:
-                            moves.append(Move((r, c), (r-1, c - 1), self.board, gs=self, is_en_passant_possible=True)) 
+                        elif self.possible_en_passant_end_square == (r-1, c-1):
+                            if self.board[r][c-1][0] == "w" and i_am_black_and_to_move or self.board[r][c-1][0] == "b" and i_am_white_and_to_move:
+                                moves.append(Move((r, c), (r-1, c - 1), self.board, gs=self, is_en_passant_possible=True)) 
                 if c+1 <= 7:
                     if not is_pinned or pin_direction == (-1, +1):
                         if self.board[r-1][c+1][0] == "b" and i_am_white_and_to_move or self.board[r-1][c+1][0] == "w" and i_am_black_and_to_move:
                             moves.append(Move((r, c), (r-1, c + 1), self.board, gs=self))
                             # #print("i can capture with a pawn on right")
-                        elif self.possible_en_passant_end_square == (r-1, c+1) and i_am_white_and_to_move or i_am_black_and_to_move:
-                            moves.append(Move((r, c), (r-1, c + 1), self.board, gs=self, is_en_passant_possible=True)) 
+                        elif self.possible_en_passant_end_square == (r-1, c+1):
+                            if self.board[r][c+1][0] == "w" and i_am_black_and_to_move or self.board[r][c+1][0] == "b" and i_am_white_and_to_move:
+                                moves.append(Move((r, c), (r-1, c + 1), self.board, gs=self, is_en_passant_possible=True)) 
         #handels enemy/computer moves 
         else:
             if r + 1 <= 7:
@@ -512,15 +514,17 @@ class GameState:
                         if self.board[r+1][c-1][0] == "w" and i_am_white_and_to_wait or self.board[r+1][c-1][0] == "b" and i_am_black_and_to_wait:
                             moves.append(Move((r, c), (r + 1, c - 1), self.board, gs=self))
                             # #print("enemy can capture with a pawn on his right")
-                        elif self.possible_en_passant_end_square == (r+1, c-1) and i_am_white_and_to_wait or i_am_black_and_to_wait:
-                            moves.append(Move((r, c), (r+1, c - 1), self.board, gs=self, is_en_passant_possible=True)) 
+                        elif self.possible_en_passant_end_square == (r+1, c-1):
+                            if self.board[r][c-1][0] == "w" and i_am_white_and_to_wait or self.board[r][c-1][0] == "b" and i_am_black_and_to_wait:
+                                moves.append(Move((r, c), (r+1, c - 1), self.board, gs=self, is_en_passant_possible=True)) 
                 if c+1 <= 7:
                     if not is_pinned or pin_direction == (+1, +1):
                         if self.board[r+1][c+1][0] == "w" and i_am_white_and_to_wait or self.board[r+1][c+1][0] == "b" and i_am_black_and_to_wait :
                             moves.append(Move((r, c), (r + 1, c + 1), self.board, gs=self)) 
                             # #print("enemy can capture with a pawn", r,c, "on his left")
-                        elif self.possible_en_passant_end_square == (r+1, c+1) and i_am_white_and_to_wait or i_am_black_and_to_wait:
-                            moves.append(Move((r, c), (r+1, c + 1), self.board, gs=self, is_en_passant_possible=True)) 
+                        elif self.possible_en_passant_end_square == (r+1, c+1):
+                            if self.board[r][c+1][0] == "w" and i_am_white_and_to_wait or self.board[r][c+1][0] == "b" and i_am_black_and_to_wait:
+                                moves.append(Move((r, c), (r+1, c + 1), self.board, gs=self, is_en_passant_possible=True))
         
 class CastleRights():
     
