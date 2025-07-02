@@ -1,4 +1,3 @@
-from re import S
 from utils import PIECE_DIRECTIONS, WHITE_BOARD, BLACK_BOARD
 
 class GameState:
@@ -129,8 +128,11 @@ class GameState:
             
             self.castle_rights_log.pop()
             self.current_castle_rights = self.castle_rights_log[-1]
+            self.checkmate = False
+            self.stalemate = False
         else: 
             print("Starting postion")
+            
     
     def validate_pawn_check(self, direction, enemy_color):
         players_pawns_directions = ((-1, -1), (-1, +1))

@@ -1,5 +1,6 @@
 import pygame
 import sys
+from app_state import AppState
 from utils import IMAGES, SQUARE_SIZE, WIDTH, HEIGHT, x_offset, y_offset, WINDOW as screen
 import os
 
@@ -10,14 +11,14 @@ def load_images():
     for piece in pieces:
         IMAGES[piece] = pygame.image.load(os.path.join("Assets", f'{piece}.png'))
 
-def start_game_white(state):
+def start_game_white(state: AppState):
     print("Starting as white")
     load_images()
     state.set_current_menu("game")
     state.is_players_color_white = True
     return None
 
-def start_game_black(state):
+def start_game_black(state: AppState):
     print("Starting as black")
     load_images()
     state.set_current_menu("game")

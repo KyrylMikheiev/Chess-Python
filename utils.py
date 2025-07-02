@@ -19,6 +19,8 @@ y_offset = (HEIGHT - BOARD_SIZE) // 2
 BG_COLOR = (48, 46, 43)
 WHITE = (237, 214, 176)
 BLACK = (184, 135, 98)
+HIGHLIGHTED_SQUARE_COLOR = "blue"
+LEGAL_MOVES_COLOR = "yellow"
 
 IMAGES = {}
 

@@ -1,4 +1,3 @@
-from chess import Move
 import pygame
 
 pygame.init()
@@ -121,9 +120,9 @@ def highlight_squares(screen, gs: chess_engine.GameState, valid_moves, selected_
         if gs.board[r][c][0] == ("w" if gs.white_to_move else "b"):
             s = pygame.Surface((SQUARE_SIZE, SQUARE_SIZE))
             s.set_alpha(100)
-            s.fill("blue")
+            s.fill(HIGHLIGHTED_SQUARE_COLOR)
             screen.blit(s, (c*SQUARE_SIZE + x_offset, r*SQUARE_SIZE + y_offset))
-            s.fill("yellow")
+            s.fill(LEGAL_MOVES_COLOR)
             for move in valid_moves:
                 if move.start_row == r and move.start_col == c:
                     screen.blit(s, (move.end_col*SQUARE_SIZE + x_offset, move.end_row*SQUARE_SIZE + y_offset))
