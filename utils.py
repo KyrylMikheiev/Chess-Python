@@ -1,15 +1,22 @@
 import pygame
 
+WINDOW = None
+title_font = None
+button_font = None
+char_font = None
+clock = None
 WIDTH, HEIGHT = 1280, 1024
-# WIDTH, HEIGHT = 1920, 1080 #fullscreen on my laptop
-WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Chess")
-FPS = 60
-clock = pygame.time.Clock()
 
-title_font = pygame.font.SysFont(None, 70)
-button_font = pygame.font.SysFont(None, 40)
-char_font = pygame.font.SysFont(None, 25)
+def init_utils():
+    global WINDOW, clock, title_font, button_font, char_font
+    # WIDTH, HEIGHT = 1920, 1080 #fullscreen on my laptop
+    WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
+    pygame.display.set_caption("Chess")
+    clock = pygame.time.Clock()
+
+    title_font = pygame.font.SysFont(None, 70)
+    button_font = pygame.font.SysFont(None, 40)
+    char_font = pygame.font.SysFont(None, 25)
 
 SQUARE_SIZE = 120
 BOARD_SIZE = SQUARE_SIZE * 8
@@ -42,6 +49,7 @@ WHITE_BOARD = [
                 ["wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
                 ["wr", "wn", "wb", "wq", "wk", "wb", "wn", "wr"]
                ]
+
 BLACK_BOARD = [
                 ["wr", "wn", "wb", "wk", "wq", "wb", "wn", "wr"], 
                 ["wp", "wp", "wp", "wp", "wp", "wp", "wp", "wp"],
@@ -52,3 +60,8 @@ BLACK_BOARD = [
                 ["bp", "bp", "bp", "bp", "bp", "bp", "bp", "bp"],
                 ["br", "bn", "bb", "bk", "bq", "bb", "bn", "br"]
                ]
+
+
+PIECES_SCORES = {"p": 1, "r": 5, "n": 3, "b": 3, "q": 10, "k": 0}
+CHECKMATE_SCORE = 1000
+STALEMATE_SCORE = 0

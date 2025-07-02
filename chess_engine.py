@@ -39,18 +39,20 @@ class GameState:
     def make_move(self, move: "Move"):
         self.board[move.start_row][move.start_col] = "--"
         if move.is_pawn_promoting:
-            if self.player_to_move:
-                print("Type a letter of a piece you want to choose")
-                piece = input()
-                piece = piece.lower().strip() 
-                if piece in ["r", "n", "b", "q"]:
-                    self.board[move.end_row][move.end_col] = move.moved_piece[0] + piece
-                else:
-                    print("This piece is not allowed to be chosen")
-                    self.make_move(move)
-            #engine always takes queen for now
-            else: 
-                self.board[move.end_row][move.end_col] = move.moved_piece[0] + "q"
+            #if you want to take the piece u want, uncomment this section
+            # if self.player_to_move:
+            #     print("Type a letter of a piece you want to choose")
+            #     piece = input()
+            #     piece = piece.lower().strip() 
+            #     if piece in ["r", "n", "b", "q"]:
+            #         self.board[move.end_row][move.end_col] = move.moved_piece[0] + piece
+            #     else:
+            #         print("This piece is not allowed to be chosen")
+            #         self.make_move(move)
+            # #engine always takes queen for now
+            # else: 
+            #     self.board[move.end_row][move.end_col] = move.moved_piece[0] + "q"
+            self.board[move.end_row][move.end_col] = move.moved_piece[0] + "q"
         else:
             self.board[move.end_row][move.end_col] = move.moved_piece
         self.move_log.append(move)
@@ -229,7 +231,6 @@ class GameState:
         
         if self.in_check:
             if len(self.checks) == 1: #only one means we can either move king, block with another piece, take the attacking piece
-                print("check")
                 moves = self.get_all_possible_moves()
                 check_info = self.checks[0]
                 piece_checks_row = check_info[0]
@@ -277,7 +278,10 @@ class GameState:
         if len(moves) == 0:
             if self.in_check:
                 self.checkmate = True
-                print("checkmate")
+                if self.white_to_move:
+                    print("white in checkmate")
+                else:
+                    print("black in checkmate")
             else:
                 self.stalemate = True
                 print("stalemate")
@@ -408,24 +412,24 @@ class GameState:
                 
     def get_kingside_moves(self, r, c, moves, dir):
         if dir == "right":
-            if self.board[r][c + 1] == "--" and self.board[r][c + 2] == "--":
-                if not self.square_under_attack(r, c+1) and not self.square_under_attack(r, c+2):
-                    moves.append(Move((r, c), (r, c+2), self.board, is_castle_move=True))
+            if self.board[r][5] == "--" and self.board[r][6] == "--":
+                if not self.square_under_attack(r, 5) and not self.square_under_attack(r, 6):
+                    moves.append(Move((r, c), (r, 6), self.board, is_castle_move=True))
         elif dir == "left":
-            if self.board[r][c - 1] == "--" and self.board[r][c - 2] == "--":
-                if not self.square_under_attack(r, c-1) and not self.square_under_attack(r, c-2):
-                    moves.append(Move((r, c), (r, c-2), self.board, is_castle_move=True))
+            if self.board[r][1] == "--" and self.board[r][2] == "--":
+                if not self.square_under_attack(r, 1) and not self.square_under_attack(r, 2):
+                    moves.append(Move((r, c), (r, 1), self.board, is_castle_move=True))
     
     #if i am white
     def get_queenside_moves(self, r, c, moves, color):
         if color == "left":
-            if self.board[r][c - 1] == "--" and self.board[r][c - 2] == "--" and self.board[r][c - 3] == "--":
-                if not self.square_under_attack(r, c-1) and not self.square_under_attack(r, c-2) and not self.square_under_attack(r, c-3):
-                    moves.append(Move((r, c), (r, c-2), self.board, is_castle_move=True))
+            if self.board[r][1] == "--" and self.board[r][2] == "--" and self.board[r][3] == "--":
+                if not self.square_under_attack(r, 1) and not self.square_under_attack(r, 2) and not self.square_under_attack(r, 3):
+                    moves.append(Move((r, c), (r, 2), self.board, is_castle_move=True))
         elif color == "right":
-            if self.board[r][c + 1] == "--" and self.board[r][c + 2] == "--" and self.board[r][c + 3] == "--":
-                if not self.square_under_attack(r, c+1) and not self.square_under_attack(r, c+2) and not self.square_under_attack(r, c+3):
-                    moves.append(Move((r, c), (r, c+2), self.board, is_castle_move=True))
+            if self.board[r][4] == "--" and self.board[r][5] == "--" and self.board[r][6] == "--":
+                if not self.square_under_attack(r, 4) and not self.square_under_attack(r, 5) and not self.square_under_attack(r, 6):
+                    moves.append(Move((r, c), (r, 5), self.board, is_castle_move=True))
     
     
     def square_under_attack(self, r, c):
