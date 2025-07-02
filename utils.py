@@ -1,6 +1,7 @@
 import pygame
 
 WIDTH, HEIGHT = 1280, 1024
+# WIDTH, HEIGHT = 1920, 1080 #fullscreen on my laptop
 WINDOW = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Chess")
 FPS = 60
