@@ -1,12 +1,3 @@
-# import random 
-# from utils import PIECES_SCORES, CHECKMATE_SCORE, STALEMATE_SCORE
-
-# def find_random_move(valid_moves):
-#     return valid_moves[random.randint(0, len(valid_moves) - 1)]
-
-# def find_best_move(gs, valid_moves, return_queue):
-#     find_random_move(valid_moves)
-
 """
 Handling AI moves.
 """
