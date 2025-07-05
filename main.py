@@ -1,7 +1,7 @@
 import pygame
 from games.chess.engine import GameState, CastleRights, Move
 from utils.utils import *
-from scenes.menus import get_menu
+from scenes.menus_old import get_menu
 from core.app_state import AppState
 from games.chess import ai
 from multiprocessing import Process, Queue

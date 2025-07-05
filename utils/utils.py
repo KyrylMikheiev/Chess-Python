@@ -7,6 +7,20 @@ char_font = None
 clock = None
 WIDTH, HEIGHT = 1280, 1024
 
+MENUS = {
+    "main": [
+        ("Play", "go_to_color_menu"),
+        ("Statistics", "show_statistics"),
+        ("Options", "show_options"),
+        ("Quit", "quit_game")
+    ],
+    "color select": [
+        ("Play as White", "start_game_white"),
+        ("Play as Black", "start_game_black"),
+        ("Back", "go_to_main_menu")
+    ]
+}
+
 def init_utils():
     global WINDOW, clock, title_font, button_font, char_font
     # WIDTH, HEIGHT = 1920, 1080 #fullscreen on my laptop
@@ -22,6 +36,11 @@ SQUARE_SIZE = 120
 BOARD_SIZE = SQUARE_SIZE * 8
 x_offset = (WIDTH - BOARD_SIZE) // 2
 y_offset = (HEIGHT - BOARD_SIZE) // 2
+
+BUTTON_WIDTH = 400
+BUTTON_HEIGHT = 50
+X_OFFSET_BUTTON = (WIDTH - BUTTON_WIDTH) // 2
+Y_OFFSET_BUTTON = (HEIGHT - BUTTON_WIDTH) // 2
 
 BG_COLOR = (48, 46, 43)
 WHITE = (237, 214, 176)

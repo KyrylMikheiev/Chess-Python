@@ -1,6 +1,8 @@
-from ui.menu_button import MenuButton 
+from ui.menu import Menu
+from ui.menu_button import MenuButton
+from utils.utils import MENUS
 
-class MainMenuScene:
+class MainMenu:
     
     def __init__(self, scene_manager):
         self.scene_manager = scene_manager
@@ -11,5 +13,6 @@ class MainMenuScene:
     def update(self, dt):
         pass
     
-    def draw(self):
-        pass
+    def render(self, screen):
+        menu = Menu("main", screen)
+        menu.draw()
