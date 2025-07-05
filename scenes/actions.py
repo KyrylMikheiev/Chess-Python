@@ -1,7 +1,7 @@
 import pygame
 import sys
-from app_state import AppState
-from utils import IMAGES, SQUARE_SIZE, WIDTH, HEIGHT, x_offset, y_offset, WINDOW as screen
+from core.app_state import AppState
+from utils.utils import IMAGES, SQUARE_SIZE, WIDTH, HEIGHT, x_offset, y_offset, WINDOW as screen
 import os
 
 ACTIONS = {}
@@ -9,7 +9,7 @@ ACTIONS = {}
 def load_images():
     pieces = ["wp", "wr", "wn", "wb", "wq", "wk", "bp", "br", "bn", "bb", "bq", "bk"]
     for piece in pieces:
-        IMAGES[piece] = pygame.image.load(os.path.join("Assets", f'{piece}.png'))
+        IMAGES[piece] = pygame.image.load(os.path.join("assets", "images", f'{piece}.png'))
 
 def start_game_white(state: AppState):
     print("Starting as white")

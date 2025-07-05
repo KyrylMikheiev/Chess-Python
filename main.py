@@ -1,12 +1,11 @@
 import pygame
-#SCHOOL HAS COME TO THE END; I GOT 14 for this assingment
-import chess_engine
-from utils import *
-from menus import get_menu
-from app_state import AppState
-import smart_move_finder  
-import time
+from games.chess.engine import GameState, CastleRights, Move
+from utils.utils import *
+from scenes.menus import get_menu
+from core.app_state import AppState
+from games.chess import ai
 from multiprocessing import Process, Queue
+from ui.menu_button import MenuButton
 
 state = AppState()
     
@@ -14,7 +13,7 @@ def main():
     
     pygame.init()
     init_utils()
-    from utils import WINDOW, clock, title_font
+    from utils.utils import WINDOW, clock, title_font
     # Get initial menu
     current_buttons = get_menu(state.get_current_menu())
     selected_square = ()
@@ -29,6 +28,7 @@ def main():
     ai_thinking = False
     move_finder_process = None
     move_undone = False
+    ai_move = None
     
     while state.get_running_state():
         mouse_pos = pygame.mouse.get_pos()
@@ -37,7 +37,7 @@ def main():
         if state.get_current_menu() == "game":
             # current_buttons = []
             if not gs:
-                gs = chess_engine.GameState(state.is_players_color_white)
+                gs = GameState(state.is_players_color_white)
                 valid_moves = gs.get_valid_moves()            
                     
             draw_game_state(WINDOW, gs, selected_square, valid_moves)
@@ -63,6 +63,7 @@ def main():
             elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                 if state.get_current_menu() != "game":
                     for button in current_buttons:
+                        button:MenuButton
                         if button.is_clicked(mouse_pos):
                             next_menu = button.action(state)
                             if next_menu:
@@ -81,7 +82,7 @@ def main():
                             player_clicks.append(selected_square)
 
                         if len(player_clicks) == 2:
-                            move = chess_engine.Move(player_clicks[0], player_clicks[1], gs.board, gs=gs)
+                            move =  Move(player_clicks[0], player_clicks[1], gs.board, gs=gs)
                             # print(move.moveID)
                             for i in range(len(valid_moves)):
                                 if move == valid_moves[i]:
@@ -109,7 +110,7 @@ def main():
                         ai_thinking = False
                     move_undone = True  
                 if event.key == pygame.K_r:
-                    gs = chess_engine.GameState()
+                    gs =  GameState()
                     valid_moves = gs.get_valid_moves()
                     selected_square = ()
                     player_clicks = []
@@ -126,7 +127,7 @@ def main():
                     ai_thinking = True
                     print("thinking....")
                     return_queue = Queue() # used to pass data between processes/ threads
-                    move_finder_process = Process(target=smart_move_finder.find_best_move, args=(gs, valid_moves, return_queue))
+                    move_finder_process = Process(target= ai.find_best_move, args=(gs, valid_moves, return_queue))
                     move_finder_process.start() # starting the process
                     
                 if not move_finder_process.is_alive():
@@ -135,7 +136,7 @@ def main():
                         ai_move = return_queue.get()
                     else:
                         print("AI process terminated before returning a move.")
-                        ai_move = smart_move_finder.find_random_move(valid_moves)  
+                        ai_move =  ai.find_random_move(valid_moves)  
                     # print(ai_move.moveID, "here")
                     gs.make_move(ai_move)
                     move_made = True
@@ -175,7 +176,7 @@ def draw_game_state(screen, gs, selected_square, valid_moves):
 
     
 def draw_board(screen, is_players_color_white):
-    from utils import char_font 
+    from utils.utils import char_font 
     for i in range(8):
         for j in range(8):
             rect = pygame.Rect(j*SQUARE_SIZE + x_offset, i*SQUARE_SIZE + y_offset, SQUARE_SIZE, SQUARE_SIZE)
@@ -187,7 +188,7 @@ def draw_board(screen, is_players_color_white):
                 char_text = char_font.render(chr(97+j) if is_players_color_white else chr(104-j), True, BLACK if j % 2 != 0 else WHITE)
                 screen.blit(char_text, ((j+1)*SQUARE_SIZE + x_offset - 15, (i+1)*SQUARE_SIZE + y_offset - 20))            
 
-def highlight_squares(screen, gs: chess_engine.GameState, valid_moves, selected_square):
+def highlight_squares(screen, gs:  GameState, valid_moves, selected_square):
     if selected_square != ():
         r, c = selected_square
         if gs.board[r][c][0] == ("w" if gs.white_to_move else "b"):
@@ -210,7 +211,7 @@ def draw_pieces(screen, board):
 
 
 def draw_text(screen, text):
-    from utils import title_font
+    from utils.utils import title_font
     textObject = title_font.render(text, 0, pygame.Color('Black'))
     textLocation = pygame.Rect(0, 0, WIDTH, HEIGHT).move(WIDTH/2 - textObject.get_width()/2, HEIGHT/2 - textObject.get_height()/2)
     screen.blit(textObject, textLocation)

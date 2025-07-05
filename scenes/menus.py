@@ -1,6 +1,6 @@
-from ui import MenuButton
-from utils import WIDTH, HEIGHT
-from actions import ACTIONS
+from ui.menu_button import MenuButton
+from utils.utils import WIDTH, HEIGHT
+from scenes.actions import ACTIONS
 
 def create_menu(button_defs):
     buttons = []

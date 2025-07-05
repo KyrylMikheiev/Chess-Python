@@ -1,5 +1,5 @@
 import pygame
-import utils
+import utils.utils as utils
 
 class MenuButton:
     WIDTH, HEIGHT = 400, 50

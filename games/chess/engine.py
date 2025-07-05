@@ -1,4 +1,4 @@
-from utils import PIECE_DIRECTIONS, WHITE_BOARD, BLACK_BOARD
+from utils.utils import PIECE_DIRECTIONS, WHITE_BOARD, BLACK_BOARD
 
 class GameState:
     
@@ -134,8 +134,7 @@ class GameState:
             self.stalemate = False
         else: 
             print("Starting postion")
-            
-    
+                
     def validate_pawn_check(self, direction, enemy_color):
         players_pawns_directions = ((-1, -1), (-1, +1))
         enemys_pawns_directions = ((+1, -1), (+1, +1))
@@ -420,7 +419,6 @@ class GameState:
                 if not self.square_under_attack(r, 1) and not self.square_under_attack(r, 2):
                     moves.append(Move((r, c), (r, 1), self.board, is_castle_move=True))
     
-    #if i am white
     def get_queenside_moves(self, r, c, moves, color):
         if color == "left":
             if self.board[r][1] == "--" and self.board[r][2] == "--" and self.board[r][3] == "--":
@@ -471,7 +469,6 @@ class GameState:
                         self.current_castle_rights.wks = False
                     if move.start_row == 0 and move.start_col == 7:
                         self.current_castle_rights.wqs = False             
- 
                         
     def get_pawn_moves(self, r, c, moves):
         is_pinned, pin_direction = self.get_is_piece_pinned_and_pin_direction(r, c)   
