@@ -4,14 +4,14 @@ import utils.utils as utils
 class MenuButton:
     WIDTH, HEIGHT = 400, 50
 
-    def __init__(self, x, y, label, action):
-        self.rect = pygame.Rect(x, y, self.WIDTH, self.HEIGHT)
+    def __init__(self, label, action):
         self.label = label
         self.default_color = pygame.Color("white")
         self.hover_color = pygame.Color("lightgray")
         self.action = action 
 
-    def draw(self, screen):
+    def draw(self, x, y, screen):
+        self.rect = pygame.Rect(x, y, self.WIDTH, self.HEIGHT)
         self.font = pygame.font.SysFont(None, 40)
         self.text = self.font.render(self.label, True, "black")
         self.text_rect = self.text.get_rect(center=self.rect.center)
