@@ -263,7 +263,7 @@ class GameState:
                             moves.remove(moves[i])
             else: 
                 #if there is a double check, only way to get out is to move king
-                print("this is a double check, only move is to move king")
+                # print("this is a double check, only move is to move king")
                 self.get_king_moves(king_row, king_col, moves)
         else: 
             #no check, all moves are valid except for pins
@@ -277,10 +277,10 @@ class GameState:
         if len(moves) == 0:
             if self.in_check:
                 self.checkmate = True
-                if self.white_to_move:
-                    print("white in checkmate")
-                else:
-                    print("black in checkmate")
+                # if self.white_to_move:
+                #     print("white in checkmate")
+                # else:
+                #     print("black in checkmate")
             else:
                 self.stalemate = True
                 print("stalemate")
@@ -537,7 +537,7 @@ class CastleRights():
         self.bks = bks
         self.bqs = bqs
         
-        
+
 class Move:
     
     def __init__(self, start_pos, end_pos, board, gs=None, is_en_passant_possible=False, is_castle_move=False):
@@ -562,7 +562,8 @@ class Move:
         self.is_castle_move = is_castle_move
         
         
-        self.moveID = self.start_row * 1000 + self.start_col * 100 + self.end_row * 10 + self.end_col
+        # self.moveID = self.start_row * 1000 + self.start_col * 100 + self.end_row * 10 + self.end_col
+        self.moveID = f'{self.start_row}{self.start_col}{self.end_row}{self.end_col}'
         
     def __eq__(self, other):
         if isinstance(other, Move):

@@ -17,7 +17,8 @@ class Menu:
     def draw(self, screen: pygame.surface.Surface):
         title_font = pygame.font.SysFont(None, 70)
         title_text = title_font.render(self.menu, True, "white")
-        screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, 150))
+        dis_info = pygame.display.get_window_size()
+        screen.blit(title_text, (dis_info[0] // 2 - title_text.get_width() // 2, 150))
         for i, button in enumerate(self.buttons):
             x = (screen.get_size()[0] - BUTTON_WIDTH) // 2
             y = (screen.get_size()[1] - BUTTON_HEIGHT) // 2.5 + i * 70
