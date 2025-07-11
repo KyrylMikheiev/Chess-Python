@@ -14,12 +14,12 @@ class GameState:
                 
         if self.is_players_color_white:
             self.player_to_move = True
-            self.board = WHITE_BOARD
+            self.board = [row[:] for row in WHITE_BOARD]
             self.white_king_location = (7, 4)
             self.black_king_location  = (0, 4)
         else:
             self.player_to_move = False
-            self.board = BLACK_BOARD
+            self.board = [row[:] for row in BLACK_BOARD]
             self.white_king_location = (0, 4)
             self.black_king_location = (7, 4)
         self.move_log = []
@@ -33,6 +33,7 @@ class GameState:
         self.castle_rights_log = [CastleRights(self.current_castle_rights.wks, self.current_castle_rights.wqs, 
                                                self.current_castle_rights.bks, self.current_castle_rights.bqs)]
         
+
     def get_players_color(self):
         return self.is_players_color_white
 

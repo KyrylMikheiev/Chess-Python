@@ -30,8 +30,6 @@ class GameScene:
         
         self.return_queue = None
         
-        self.move_to_highlight = ""
-        
     def load_images(self):
         pieces = ["wp", "wr", "wn", "wb", "wq", "wk", "bp", "br", "bn", "bb", "bq", "bk"]
         for piece in pieces:
@@ -39,65 +37,32 @@ class GameScene:
         
     def render(self, screen):
         self.draw_board(screen)
-        self.highlight_move(screen, self.move_to_highlight)
+        self.highlight_move(screen, self.gs.move_log)
         self.highlight_squares(screen, self.gs, self.valid_moves, self.selected_square)
         self.draw_pieces_and_chars(screen, self.gs.board, self.gs.is_players_color_white)
         self.handle_pop_up(screen)
 
-        
     def handle_event(self, event: pygame.event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_z:
-                self.gs.undo_move()
-                self.move_made = True
-                self.game_over = False
-                if self.ai_thinking:
-                    self.move_finder_process.terminate()
-                    self.ai_thinking = False
-                self.move_undone = True  
+                self.undo_move()
             if event.key == pygame.K_r:
-                self.gs = GameState(self.gs.is_players_color_white)
-                self.render(self.scene_manager.screen)
-                # self.scene_manager.change_scene(GameScene(self.scene_manager, self.gs.is_players_color_white))
-                # print("reset game")
-                # self.selected_square = ()
-                # self.player_clicks = []
-                # self.move_made = False
-                # self.game_over = False
-                # if self.ai_thinking:
-                #     self.move_finder_process.terminate()
-                #     self.ai_thinking = False
-                # self.move_undone = True
-                # GameScene(self.scene_manager, self.gs.is_players_color_white)
+                self.reset_game()
         
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.human_turn:
-            mouse_pos = pygame.mouse.get_pos()
-            if mouse_pos[0] in range (x_offset, x_offset + BOARD_SIZE) and mouse_pos[1] in range (y_offset, y_offset + BOARD_SIZE):
-                col = (mouse_pos[0] - x_offset)//SQUARE_SIZE #from 0 to 7
-                row = (mouse_pos[1] - y_offset)//SQUARE_SIZE #from 0 to 7
-                if self.selected_square == (row, col):
-                    self.selected_square = ()
-                    self.player_clicks = []
-                else:
-                    self.selected_square = (row, col)
-                    self.player_clicks.append(self.selected_square)
-
-                if len(self.player_clicks) == 2:
-                    move =  Move(self.player_clicks[0], self.player_clicks[1], self.gs.board, gs=self.gs)
-                    # print(move.moveID)
-                    for i in range(len(self.valid_moves)):
-                        if move == self.valid_moves[i]:
-                            self.gs.make_move(self.valid_moves[i])
-                            self.move_made = True
-                            self.selected_square = ()
-                            self.player_clicks = []
-                            self.move_to_highlight = move.moveID
-                            break
-                    if not self.move_made:
-                        self.player_clicks = [self.selected_square]
-                        
-                    
+            self.handle_human_move()
+                                           
     def update(self, screen):
+        self.handle_ai_move()    
+        if self.move_made:
+            self.valid_moves = self.gs.get_valid_moves()
+            self.move_made = False
+            if not self.human_turn:
+                self.move_undone = False
+                   
+        self.human_turn = self.gs.player_to_move
+    
+    def handle_ai_move(self):
         if not self.game_over and not self.human_turn and not self.move_undone:
             if not self.ai_thinking:
                 self.ai_thinking = True
@@ -113,22 +78,55 @@ class GameScene:
                 else:
                     print("AI process terminated before returning a move.")
                     self.ai_move =  ai.find_random_move(self.valid_moves)  
-                self.move_to_highlight = self.ai_move.moveID
                 self.gs.make_move(self.ai_move)
                 self.move_made = True
                 self.ai_thinking = False
-                                
-        if self.move_made:
-            # print("MOVE WAS MADE")
-            # if self.ai_move:
-            #     print(self.ai_move.moveID, "ai move")
-            self.valid_moves = self.gs.get_valid_moves()
-            self.move_made = False
-            if not self.human_turn:
-                self.move_undone = False
-                   
-        self.human_turn = (self.gs.is_players_color_white and self.gs.white_to_move) or (not self.gs.is_players_color_white and not self.gs.white_to_move)
+    
+    def handle_human_move(self):
+        mouse_pos = pygame.mouse.get_pos()
+        if mouse_pos[0] in range (x_offset, x_offset + BOARD_SIZE) and mouse_pos[1] in range (y_offset, y_offset + BOARD_SIZE):
+            col = (mouse_pos[0] - x_offset)//SQUARE_SIZE #from 0 to 7
+            row = (mouse_pos[1] - y_offset)//SQUARE_SIZE #from 0 to 7
+            if self.selected_square == (row, col):
+                self.selected_square = ()
+                self.player_clicks = []
+            else:
+                self.selected_square = (row, col)
+                self.player_clicks.append(self.selected_square)
+
+            if len(self.player_clicks) == 2:
+                move =  Move(self.player_clicks[0], self.player_clicks[1], self.gs.board, gs=self.gs)
+                # print(move.moveID)
+                for i in range(len(self.valid_moves)):
+                    if move == self.valid_moves[i]:
+                        self.gs.make_move(self.valid_moves[i])
+                        self.move_made = True
+                        self.selected_square = ()
+                        self.player_clicks = []
+                        break
+                if not self.move_made:
+                    self.player_clicks = [self.selected_square]
+    
+    def reset_game(self):
+        print("reset game")
+        if self.ai_thinking:
+            self.move_finder_process.terminate()
+            self.ai_thinking = False
+        self.scene_manager.change_scene(GameScene(self.scene_manager, self.gs.is_players_color_white))
         
+    def undo_move(self):
+        self.gs.undo_move()
+        self.move_made = True
+        self.game_over = False
+        if self.ai_thinking:
+            self.move_finder_process.terminate()
+            self.ai_thinking = False
+        self.move_undone = True  
+        
+    '''
+    drawings in render method:
+    '''
+    
     def draw_board(self, screen):
         
         for i in range(8):
@@ -136,7 +134,6 @@ class GameScene:
                 rect = pygame.Rect(j*SQUARE_SIZE + x_offset, i*SQUARE_SIZE + y_offset, SQUARE_SIZE, SQUARE_SIZE)
                 pygame.draw.rect(screen, WHITE if (i + j) % 2 == 0 else BLACK, rect)
           
-
     def highlight_squares(self, screen, gs:  GameState, valid_moves, selected_square):
         if selected_square != ():
             r, c = selected_square
@@ -183,8 +180,9 @@ class GameScene:
         elif self.gs.in_check:
             self.draw_text(screen, "check") 
             
-    def highlight_move(self, screen, moveID):
-        if moveID:
+    def highlight_move(self, screen, move_log):
+        if move_log:
+            moveID = move_log[-1].moveID
             x1, y1, x2, y2 = map(int, moveID)
             def draw_transparent_overlay(x, y, color):
                 overlay = pygame.Surface((SQUARE_SIZE, SQUARE_SIZE), pygame.SRCALPHA)
