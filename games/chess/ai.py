@@ -132,7 +132,6 @@ def find_best_move(gs, validMoves, returnQueue):
     returnQueue.put(nextMove)
 
 
-
 def findMoveNegaMaxAlphaBeta(gs, validMoves, depth, alpha, beta, turnMultiplier):
     global nextMove
     if depth == 0:
