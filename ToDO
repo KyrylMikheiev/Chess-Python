@@ -3,3 +3,6 @@
 - clean gamestate class
 - init in __init__ 
 - use uis and scene as well or init everything in ./scenes/gamescene.py ?
+
+# ./scenes/menus
+- in both files in *handle_action* function i import others menus
