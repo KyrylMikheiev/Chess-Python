@@ -1,0 +1,5 @@
+# Chess folder
+- engine module contains 3 classes
+- clean gamestate class
+- init in __init__ 
+- use uis and scene as well or init everything in ./scenes/gamescene.py ?
