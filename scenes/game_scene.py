@@ -1,6 +1,7 @@
 from multiprocessing import Process, Queue
 import os
 from games.chess import ai
+from games.chess.engine import Move
 from games.chess.engine import GameState, Move
 import pygame
 from scenes.menus.main_menu import MainMenu
@@ -66,13 +67,13 @@ class GameScene:
         if not self.game_over and not self.human_turn and not self.move_undone:
             if not self.ai_thinking:
                 self.ai_thinking = True
-                print("thinking....")
+                # print("thinking....")
                 self.return_queue = Queue() # used to pass data between processes/ threads
                 self.move_finder_process = Process(target=ai.find_best_move, args=(self.gs, self.valid_moves, self.return_queue))
                 self.move_finder_process.start() # starting the process
                 
             if not self.move_finder_process.is_alive():
-                print('Done thinking!!!') 
+                # print('Done thinking!!!') 
                 if not self.return_queue.empty():
                     self.ai_move = self.return_queue.get()
                 else:
@@ -144,21 +145,21 @@ class GameScene:
                 screen.blit(s, (c*SQUARE_SIZE + x_offset, r*SQUARE_SIZE + y_offset))
                 s.fill(LEGAL_MOVES_COLOR)
                 for move in valid_moves:
+                    move: Move
                     if move.start_row == r and move.start_col == c:
                         screen.blit(s, (move.end_col*SQUARE_SIZE + x_offset, move.end_row*SQUARE_SIZE + y_offset))
 
     def draw_pieces_and_chars(self, screen, board, is_players_color_white):
-        char_font = pygame.font.SysFont(None, 25)
         for r in range(8):
             for c in range(8):
                 piece = board[r][c]
                 if piece != "--":
                     screen.blit(IMAGES[piece], pygame.Rect(x_offset + c*SQUARE_SIZE - 3, y_offset + r*SQUARE_SIZE - 5, SQUARE_SIZE, SQUARE_SIZE))
                 if c == 0:
-                    char_text = char_font.render(str(8-r) if is_players_color_white else str(r + 1), True, BLACK if r % 2 == 0 else WHITE)
+                    char_text = CHAR_FONT.render(str(8-r) if is_players_color_white else str(r + 1), True, BLACK if r % 2 == 0 else WHITE)
                     screen.blit(char_text, (c*SQUARE_SIZE + x_offset + 5, r*SQUARE_SIZE + y_offset + 5))
                 if r == 7:
-                    char_text = char_font.render(chr(97+c) if is_players_color_white else chr(104-c), True, BLACK if c % 2 != 0 else WHITE)
+                    char_text = CHAR_FONT.render(chr(97+c) if is_players_color_white else chr(104-c), True, BLACK if c % 2 != 0 else WHITE)
                     screen.blit(char_text, ((c+1)*SQUARE_SIZE + x_offset - 15, (r+1)*SQUARE_SIZE + y_offset - 20)) 
                      
     def draw_text(self, screen, text):

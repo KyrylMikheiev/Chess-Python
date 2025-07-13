@@ -2,7 +2,6 @@ import pygame
 from core.scene_manager import SceneManager
 from scenes.game_scene import GameScene
 from ui.menu import Menu
-from utils.utils import MENUS
 
 class ColorMenu:
     
@@ -17,14 +16,7 @@ class ColorMenu:
                 if button.is_clicked(mouse_pos):
                     # print(f"Button '{button.label}' clicked! Action: {button.action}")
                     self.handle_action(button.action)
-    
-        """
-            "color select": [
-        ("Play as White", "start_game_white"),
-        ("Play as Black", "start_game_black"),
-        ("Back", "go_to_main_menu")
-    ]
-        """
+
     def handle_action(self, action):
         if action == "start_game_white":
             self.scene_manager.change_scene(GameScene(self.scene_manager, True))
