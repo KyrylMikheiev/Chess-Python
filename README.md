@@ -1,6 +1,8 @@
-you need installed python to run this project
+you need installed **python** to run this project
 
-python ./main.py to start project
+python **./main.py** to start project
+
+**press Z on keyboard to undo a move, press R to reset the game**
 
 [Person](https://www.youtube.com/@eddiesharick6649), whose tutorial i was following:
 
