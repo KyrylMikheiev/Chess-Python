@@ -1,6 +1,3 @@
-# How it looks like
-![Bildschirmaufnahme 2025-12-13 215614](https://github.com/user-attachments/assets/c5339488-41fa-4938-9026-232bd03fc0e6)
-
 # Setup
 
 Python **3.12.10+** is required
@@ -25,6 +22,7 @@ Type following command in project dir to start the game:
 1. press **Z** on keyboard to undo a move
 2. press **R** to reset the game
 
-
+# How it looks like
+![Bildschirmaufnahme 2025-12-13 215614](https://github.com/user-attachments/assets/c5339488-41fa-4938-9026-232bd03fc0e6)
 
 
