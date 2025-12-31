@@ -1,12 +1,27 @@
-you need installed **python** to run this project
+# Setup
 
-python **./main.py** to start project
+Python **3.12.10+** is required
 
-**press Z on keyboard to undo a move, press R to reset the game**
+**Run following commands in project dir to setup:**
 
-[Person](https://www.youtube.com/@eddiesharick6649), whose tutorial i was following:
+1. Create venv:
+<code>python -m venv my_venv</code>
+2. Activate it:
+    - Widows: <code>my_venv\Scripts\activate</code> 
+    - MacOs/Linux: <code>source my_venv/bin/activate</code>
+3. Install needed dependecies:
+<code>pip install -r requirements.txt</code>
 
-[Link](https://www.youtube.com/watch?v=EnYui0e73Rs) to the first video
+**Start**
+Type following command in project dir to start the game:
+<code>python ./main.py</code> 
 
-[Link](https://www.youtube.com/watch?v=EnYui0e73Rs&list=PLBwF487qi8MGU81nDGaeNE1EnNEPYWKY_) to the first video in playlist
+# Info about game
+
+**When in the game:**
+1. press **Z** on keyboard to undo a move
+2. press **R** to reset the game
+
+
+
 
