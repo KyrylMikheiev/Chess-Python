@@ -1,4 +1,4 @@
-from utils.utils import PIECE_DIRECTIONS, WHITE_BOARD, BLACK_BOARD
+from constants import PIECE_DIRECTIONS, WHITE_BOARD, BLACK_BOARD
 
 class GameState:
     

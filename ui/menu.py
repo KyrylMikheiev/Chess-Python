@@ -1,5 +1,5 @@
 import pygame
-from utils.utils import BUTTON_HEIGHT, BUTTON_WIDTH, MENU_NAME_COLOR, MENU_NAME_FONT, MENUS
+from constants import BUTTON_HEIGHT, BUTTON_WIDTH, MENU_NAME_COLOR, MENU_NAME_FONT, MENUS
 from .menu_button import MenuButton
 
 class Menu:

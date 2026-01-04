@@ -1,6 +1,6 @@
 import pygame
 
-from utils.utils import BG_COLOR, HEIGHT, WIDTH
+from constants import BG_COLOR, HEIGHT, WIDTH
 
 class SceneManager:
     def __init__(self):

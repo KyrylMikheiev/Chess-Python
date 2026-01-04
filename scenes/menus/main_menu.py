@@ -1,7 +1,7 @@
 import pygame
 from core.scene_manager import SceneManager
 from ui.menu import Menu
-from utils.utils import MENUS
+from constants import MENUS
 
 class MainMenu:
     

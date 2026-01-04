@@ -1,5 +1,5 @@
 import pygame
-from utils.utils import (
+from constants import (
     BUTTON_FONT,
     BUTTON_FONT_COLOR,
     BUTTON_HEIGHT,

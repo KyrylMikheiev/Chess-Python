@@ -13,8 +13,10 @@ Python **3.12.10+** is required
 <code>pip install -r requirements.txt</code>
 
 **Start**
-Type following command in project dir to start the game:
-<code>python ./main.py</code> 
+
+(if you leave project and want to run it again, activate venv as followed above)
+- Type following command in project dir to start the game:
+<code>python main.py</code> 
 
 # Info about game
 

@@ -44,6 +44,9 @@ MENUS = {
         ("Play as Black", "start_game_black"),
         ("Back", "go_to_main_menu"),
     ],
+    "in game": [
+        ("End the game", "abrupt_game")
+    ]
 }
 
 #engine-------------------------------------------------------------------------------------

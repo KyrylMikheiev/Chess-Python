@@ -5,7 +5,7 @@ from games.chess.engine import Move
 from games.chess.engine import GameState, Move
 import pygame
 from scenes.menus.main_menu import MainMenu
-from utils.utils import *
+from constants import *
 
 class GameScene:
     
@@ -41,8 +41,12 @@ class GameScene:
         self.highlight_move(screen, self.gs.move_log)
         self.highlight_squares(screen, self.gs, self.valid_moves, self.selected_square)
         self.draw_pieces_and_chars(screen, self.gs.board, self.gs.is_players_color_white)
+        self.abrupt_game_button(screen)
         self.handle_pop_up(screen)
 
+    def abrupt_game_button(self, screen):
+        pass
+    
     def handle_event(self, event: pygame.event):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_z:
@@ -150,6 +154,8 @@ class GameScene:
                         screen.blit(s, (move.end_col*SQUARE_SIZE + x_offset, move.end_row*SQUARE_SIZE + y_offset))
 
     def draw_pieces_and_chars(self, screen, board, is_players_color_white):
+        CHAR_FONT = pygame.font.SysFont(None, 25)
+        
         for r in range(8):
             for c in range(8):
                 piece = board[r][c]
