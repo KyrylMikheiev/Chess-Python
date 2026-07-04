@@ -30,7 +30,7 @@ class MainMenu:
         else:
             print(f"No action bound for: {action}")
     
-    def update(self, dt):
+    def update(self):
         pass
     
     def render(self, screen):

@@ -40,7 +40,7 @@ class GameState:
     def make_move(self, move: "Move"):
         self.board[move.start_row][move.start_col] = "--"
         if move.is_pawn_promoting:
-            #if you want to take the piece u want, uncomment this section
+            # # if you want to take the piece u want, uncomment this section
             # if self.player_to_move:
             #     print("Type a letter of a piece you want to choose")
             #     piece = input()

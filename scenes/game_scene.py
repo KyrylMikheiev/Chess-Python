@@ -1,10 +1,8 @@
 from multiprocessing import Process, Queue
 import os
 from games.chess import ai
-from games.chess.engine import Move
 from games.chess.engine import GameState, Move
 import pygame
-from scenes.menus.main_menu import MainMenu
 from constants import *
 
 class GameScene:
@@ -36,6 +34,16 @@ class GameScene:
         for piece in pieces:
             IMAGES[piece] = pygame.image.load(os.path.join("assets", "images", f'{piece}.png'))
         
+    def update(self):
+        self.handle_ai_move()    
+        if self.move_made:
+            self.valid_moves = self.gs.get_valid_moves()
+            self.move_made = False
+            if not self.human_turn:
+                self.move_undone = False
+
+        self.human_turn = self.gs.player_to_move
+
     def render(self, screen):
         self.draw_board(screen)
         self.highlight_move(screen, self.gs.move_log)
@@ -56,36 +64,28 @@ class GameScene:
         
         if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.human_turn:
             self.handle_human_move()
-                                           
-    def update(self, screen):
-        self.handle_ai_move()    
-        if self.move_made:
-            self.valid_moves = self.gs.get_valid_moves()
-            self.move_made = False
-            if not self.human_turn:
-                self.move_undone = False
-                   
-        self.human_turn = self.gs.player_to_move
+
     
     def handle_ai_move(self):
-        if not self.game_over and not self.human_turn and not self.move_undone:
-            if not self.ai_thinking:
-                self.ai_thinking = True
-                # print("thinking....")
-                self.return_queue = Queue() # used to pass data between processes/ threads
-                self.move_finder_process = Process(target=ai.find_best_move, args=(self.gs, self.valid_moves, self.return_queue))
-                self.move_finder_process.start() # starting the process
-                
-            if not self.move_finder_process.is_alive():
-                # print('Done thinking!!!') 
-                if not self.return_queue.empty():
-                    self.ai_move = self.return_queue.get()
-                else:
-                    print("AI process terminated before returning a move.")
-                    self.ai_move =  ai.find_random_move(self.valid_moves)  
-                self.gs.make_move(self.ai_move)
-                self.move_made = True
-                self.ai_thinking = False
+        if self.game_over or self.human_turn or self.move_undone:
+            return
+        if not self.ai_thinking:
+            self.ai_thinking = True
+            # print("thinking....")
+            self.return_queue = Queue() # used to pass data between processes/ threads
+            self.move_finder_process = Process(target=ai.find_best_move, args=(self.gs, self.valid_moves, self.return_queue))
+            self.move_finder_process.start() # starting the process
+            
+        if not self.move_finder_process.is_alive():
+            # print('Done thinking!!!') 
+            if not self.return_queue.empty():
+                self.ai_move = self.return_queue.get()
+            else:
+                print("AI process terminated before returning a move.")
+                self.ai_move =  ai.find_random_move(self.valid_moves)  
+            self.gs.make_move(self.ai_move)
+            self.move_made = True
+            self.ai_thinking = False
     
     def handle_human_move(self):
         mouse_pos = pygame.mouse.get_pos()
@@ -133,12 +133,11 @@ class GameScene:
     '''
     
     def draw_board(self, screen):
-        
         for i in range(8):
             for j in range(8):
                 rect = pygame.Rect(j*SQUARE_SIZE + x_offset, i*SQUARE_SIZE + y_offset, SQUARE_SIZE, SQUARE_SIZE)
                 pygame.draw.rect(screen, WHITE if (i + j) % 2 == 0 else BLACK, rect)
-          
+
     def highlight_squares(self, screen, gs:  GameState, valid_moves, selected_square):
         if selected_square != ():
             r, c = selected_square
@@ -167,7 +166,7 @@ class GameScene:
                 if r == 7:
                     char_text = CHAR_FONT.render(chr(97+c) if is_players_color_white else chr(104-c), True, BLACK if c % 2 != 0 else WHITE)
                     screen.blit(char_text, ((c+1)*SQUARE_SIZE + x_offset - 15, (r+1)*SQUARE_SIZE + y_offset - 20)) 
-                     
+
     def draw_text(self, screen, text):
         title_font = pygame.font.SysFont(None, 70)
         textObject = title_font.render(text, 0, pygame.Color('Black'))

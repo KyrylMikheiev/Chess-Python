@@ -29,7 +29,7 @@ class SceneManager:
                 self.current_scene.handle_event(event)
 
         self.screen.fill(BG_COLOR)
-        self.current_scene.update(self.screen)
+        self.current_scene.update()
         self.current_scene.render(self.screen)
         pygame.display.flip()
         
