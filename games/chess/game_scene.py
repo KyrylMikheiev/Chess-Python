@@ -11,13 +11,11 @@ class GameScene:
         
         self.scene_manager = scene_manager
         self.screen = self.scene_manager.screen
-        self.controller = Controller()
+        self.controller = Controller(is_white)
         self.load_images()
         
         self.selected_square = ()
         self.player_clicks = []
-        
-        self.human_turn = is_white
     
     def update(self):
         self.controller.update()
@@ -40,7 +38,7 @@ class GameScene:
             if event.key == pygame.K_r:
                 self.reset_game()
         
-        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.human_turn:
+        if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1 and self.controller.human_turn:
             self.handle_human_move()
             
     def handle_human_move(self):

@@ -7,7 +7,7 @@ from games.chess.move import Move
 
 
 class Controller:
-    def __init__(self):
+    def __init__(self, is_white):
         self.engine = Engine()
         self.gs = GameState()
         self.valid_moves = self.engine.get_valid_moves()
@@ -21,6 +21,8 @@ class Controller:
         self.move_finder_process = None
         
         self.return_queue = None
+        
+        self.human_turn = is_white
         
     def handle_ai_move(self):
         if self.game_over or self.human_turn or self.move_undone:
