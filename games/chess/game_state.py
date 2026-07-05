@@ -1,3 +1,4 @@
+from .move import Move
 from .castle_rights import CastleRights
 from constants import WHITE_BOARD, BLACK_BOARD
 
@@ -24,11 +25,6 @@ class GameState:
             self.white_king_location = (0, 4)
             self.black_king_location = (7, 4)
         self.move_log = []
-        self.move_functions = {
-                                "p": self.get_pawn_moves, "r": self.get_rook_moves, 
-                                "n": self.get_knight_moves, "b": self.get_bishop_moves, 
-                                "q": self.get_queen_moves, "k": self.get_king_moves
-                                }
         self.possible_en_passant_end_square = () #cordinates of where piece ends up landing after en passant
         self.current_castle_rights = CastleRights(True, True, True, True)
         self.castle_rights_log = [CastleRights(self.current_castle_rights.wks, self.current_castle_rights.wqs, 
@@ -37,14 +33,14 @@ class GameState:
 
     def get_players_color(self):
         return self.is_players_color_white
-
-    def make_move(self, move: "Move"):
+    
+    def make_move(self, move: Move):
         self.board[move.start_row][move.start_col] = "--"
         if move.is_pawn_promoting:
             # # if you want to take the piece u want, uncomment this section
             # if self.player_to_move:
-            #     print("Type a letter of a piece you want to choose")
-            #     piece = input()
+            #     print()"Type a letter of a piece you want to choose")
+            #     piece = input())
             #     piece = piece.lower().strip() 
             #     if piece in ["r", "n", "b", "q"]:
             #         self.board[move.end_row][move.end_col] = move.moved_piece[0] + piece

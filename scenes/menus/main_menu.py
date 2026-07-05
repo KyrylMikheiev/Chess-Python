@@ -33,5 +33,5 @@ class MainMenu:
     def update(self):
         pass
     
-    def render(self, screen):
-        self.menu.draw(screen)
+    def render(self):
+        self.menu.draw(self.scene_manager.screen)

@@ -1,7 +1,10 @@
 from constants import PIECE_DIRECTIONS
-from .move import Move
+from games.chess.game_state import GameState
 
 class Engine:
+    
+    def __init__(self):
+        pass
     
     def check_for_pins_and_checks(self):
         pins = [] #list of tuples, each tuple has length of 4 with 1:row 2:col 3:x_direction, 4:y_direction
@@ -166,25 +169,3 @@ class Engine:
                     piece = self.board[r][c][1]
                     self.move_functions[piece](r, c, moves)
         return moves
-    def get_king_moves(self, r, c, moves):
-        direction = PIECE_DIRECTIONS["k"]
-        ally_color = 'w' if self.white_to_move else 'b'
-        for i in range(8):
-            end_row = r + direction[i][0]
-            end_col = c + direction[i][1]
-            if 0 <= end_row < 8 and 0 <= end_col < 8:
-                end_piece = self.board[end_row][end_col]
-                if end_piece[0] != ally_color: #not ally piece (empty or enemy piece
-                    # place king on end square and check for checks
-                    if ally_color == 'w':
-                        self.white_king_location = (end_row, end_col)
-                    else:
-                        self.black_king_location = (end_row, end_col)
-                    in_check, pins, checks = self.check_for_pins_and_checks()
-                    if not in_check:
-                        moves.append(Move((r, c), (end_row, end_col), self.board))
-                    # place king back on original location
-                    if ally_color == 'w':
-                        self.white_king_location = (r, c)
-                    else:
-                        self.black_king_location = (r, c)

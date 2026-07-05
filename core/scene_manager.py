@@ -30,7 +30,7 @@ class SceneManager:
 
         self.screen.fill(BG_COLOR)
         self.current_scene.update()
-        self.current_scene.render(self.screen)
+        self.current_scene.render()
         pygame.display.flip()
         
     def toggle_fullscreen(self):

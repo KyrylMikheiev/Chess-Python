@@ -1,6 +1,6 @@
 import pygame
 from core.scene_manager import SceneManager
-from scenes.game_scene import GameScene
+from games.chess.game_scene import GameScene
 from ui.menu import Menu
 
 class ColorMenu:
@@ -34,5 +34,5 @@ class ColorMenu:
     def update(self):
         pass
     
-    def render(self, screen):
-        self.menu.draw(screen)
+    def render(self):
+        self.menu.draw(self.scene_manager.screen)
