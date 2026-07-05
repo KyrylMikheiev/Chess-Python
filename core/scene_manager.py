@@ -19,7 +19,7 @@ class SceneManager:
         self.running = False
 
     def run_frame(self):
-        dt = pygame.time.Clock().tick(60)
+        dt = pygame.time.Clock().tick(144)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.quit()
