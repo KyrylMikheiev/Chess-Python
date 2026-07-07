@@ -60,7 +60,7 @@ class GameScene:
     def reset_game(self):
         print("reset game")
         self.controller.terminate_thinking()
-        self.scene_manager.change_scene(GameScene(self.scene_manager, self.gs.is_players_color_white))
+        self.scene_manager.change_scene(GameScene(self.scene_manager, self.controller.gs.is_players_color_white))
 
     '''
     drawings in render method:
