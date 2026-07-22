@@ -1,6 +1,6 @@
 import pygame
 from core.scene_manager import SceneManager
-from scenes.game_scene import GameScene
+from games.chess.ui.game_scene import GameScene
 from ui.menu import Menu
 
 class ColorMenu:
@@ -25,7 +25,7 @@ class ColorMenu:
             self.scene_manager.change_scene(GameScene(self.scene_manager, False))
             print("Start game as black!")  # Placeholder
         elif action == "go_to_main_menu":
-            from scenes.menus.main_menu import MainMenu
+            from scenes.main_menu import MainMenu
             self.scene_manager.change_scene(MainMenu(self.scene_manager))
             print("Back to main menu!")  # Placeholder
         else:

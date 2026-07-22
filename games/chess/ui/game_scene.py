@@ -1,6 +1,6 @@
 from multiprocessing import Process, Queue
 import os
-from games.chess import ai
+from games.chess.app.ai import ai
 from games.chess.engine import GameState, Move
 import pygame
 from constants import *

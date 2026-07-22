@@ -19,7 +19,7 @@ class MainMenu:
                     
     def handle_action(self, action):
         if action == "go_to_color_menu":
-            from scenes.menus.color_menu import ColorMenu
+            from scenes.color_menu import ColorMenu
             self.scene_manager.change_scene(ColorMenu(self.scene_manager))
         elif action == "show_statistics":
             print("show statistics")
