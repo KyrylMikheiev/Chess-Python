@@ -25,7 +25,7 @@ from shell.scene_manager import SceneManager
 
 class ChessScene:
     def __init__(self, scene_manager: SceneManager, variant: Variant,
-                 human_color: Color = Color.WHITE) -> None:
+        human_color: Color = Color.WHITE) -> None:
         self.scene_manager = scene_manager
         self.human_color = human_color
         self.human = HumanPlayer()
