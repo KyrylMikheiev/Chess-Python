@@ -13,7 +13,7 @@ class ChessUi:
         self.highlight_move(self.controller.gs.move_log)
         self.highlight_squares(self.controller.gs, self.controller.valid_moves, self.selected_square)
         self.draw_pieces_and_chars(self.controller.gs.board, self.controller.gs.is_players_color_white)
-        self.abrupt_game_button()
+        #self.abrupt_game_button()
         self.handle_pop_up()
 
     
