@@ -3,13 +3,17 @@ Handling AI moves.
 """
 from multiprocessing import Process, Queue
 import random
+
+from games.chess.game_state import GameState
+from games.chess.move import Move
 from .scoring_consts import *
 
 class Ai:
     def __init__(self):
-        self.self.cache = {}
+        self.nextMove:Move
+        self.cache = {}
         
-    def find_move(self, gs, ai_valid_moves):
+    def find_move(self, gs: GameState, ai_valid_moves: list[Move]):
         return_queue = Queue()
         move_finder_process = Process(target=self.find_best_move, args=(gs, ai_valid_moves, return_queue))
         move_finder_process.start()
@@ -25,7 +29,7 @@ class Ai:
     '''
     A positive score means that the white player is winning. A negative score means that the black player is winning.
     '''
-    def scoreBoard(self, gs) -> float:
+    def scoreBoard(self, gs: GameState) -> float:
         if gs.checkmate:
             if gs.white_to_move:
                 return -CHECKMATE
@@ -67,7 +71,7 @@ class Ai:
         return score
 
 
-    def isEndgame(self, gs):
+    def isEndgame(self, gs: GameState) -> bool:
         """Checks if the game is in EndGame"""
         whitePieces = sum(piece != "--" for row in gs.board for piece in row if piece[0] == "w")
         blackPieces = sum(piece != "--" for row in gs.board for piece in row if piece[0] == "b")
@@ -77,16 +81,27 @@ class Ai:
         else:
             return whitePieces, blackPieces, False
 
-    def find_best_move(self, gs, validMoves, returnQueue):
-        global nextMove
-        nextMove = validMoves[0]
+    def find_best_move(
+        self,
+        gs: GameState,
+        validMoves: list[Move],
+        returnQueue: Queue
+    ):
+        self.nextMove = validMoves[0]
         random.shuffle(validMoves)
-        self.findMoveNegaMaxAlphaBeta(gs, validMoves, depth=DEPTH, alpha=-CHECKMATE, beta=CHECKMATE, turnMultiplier = 1 if gs.white_to_move else -1)
-        returnQueue.put(nextMove)
+        turnMultiplier = 1 if gs.white_to_move else -1
+        self.findMoveNegaMaxAlphaBeta(gs, validMoves, DEPTH, -CHECKMATE, CHECKMATE, turnMultiplier)
+        returnQueue.put(self.nextMove)
 
-
-    def findMoveNegaMaxAlphaBeta(self, gs, validMoves, depth, alpha, beta, turnMultiplier):
-        global nextMove
+    def findMoveNegaMaxAlphaBeta(
+        self, 
+        gs:GameState, 
+        validMoves: list[Move], 
+        depth: int, 
+        alpha, 
+        beta, 
+        turnMultiplier
+    ):
         if depth == 0:
             return turnMultiplier * self.scoreBoard(gs)
         
@@ -103,7 +118,7 @@ class Ai:
             if score > maxScore:
                 maxScore = score
                 if depth == DEPTH:
-                    nextMove = move
+                    self.nextMove = move
             gs.undo_move()
             if maxScore > alpha: #pruning happens
                 alpha = maxScore
