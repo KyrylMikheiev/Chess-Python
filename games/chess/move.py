@@ -3,6 +3,10 @@ class Move:
     def __init__(self, start_square: tuple[int, int], end_square: tuple[int, int]):
         self.start = start_square
         self.end = end_square
+        self.start_x = start_square[0]
+        self.start_y = start_square[1]
+        self.end_x = end_square[0]
+        self.end_y = end_square[1]
     
     # def __init__(self, start_pos, end_pos, board, gs=None, is_en_passant_possible=False, is_castle_move=False):
     #     self.start_row = start_pos[0]
