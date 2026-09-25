@@ -1,10 +1,12 @@
 import pygame
 
 from constants import BG_COLOR, HEIGHT, WIDTH
+from core.i_scene import SceneInterface
+from core.scenes_enum import ScenesEnum
+from ui.scene import Scene
 
 class SceneManager:
     def __init__(self):
-        self.current_scene = None
         self.running = True
         self.is_f11_clicked = False
         self.screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
@@ -12,8 +14,8 @@ class SceneManager:
         self.screen.fill(BG_COLOR)
         self.fullscreen_size = pygame.display.get_desktop_sizes()[0]
 
-    def change_scene(self, scene):
-        self.current_scene = scene
+    def set_scene(self, scene: ScenesEnum):
+        self.scene = Scene(self, scene)
         
     def quit(self):
         self.running = False
@@ -26,12 +28,8 @@ class SceneManager:
             elif event.type == pygame.KEYDOWN and event.key == pygame.K_F11:
                 self.toggle_fullscreen()
             else:
-                self.current_scene.handle_event(event)
-
-        self.screen.fill(BG_COLOR)
-        self.current_scene.update()
-        self.current_scene.render()
-        pygame.display.flip()
+                self.scene.handle_event(event)
+        self.draw_scene()
         
     def toggle_fullscreen(self):
         self.is_f11_clicked = not self.is_f11_clicked
@@ -39,3 +37,9 @@ class SceneManager:
             self.screen = pygame.display.set_mode((self.fullscreen_size[0], self.fullscreen_size[1]), pygame.FULLSCREEN)
         else:
             self.screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+            
+    def draw_scene(self):
+        self.screen.fill(BG_COLOR)
+        self.scene.update()
+        self.scene.render()
+        pygame.display.flip()
