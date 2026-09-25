@@ -1,7 +1,7 @@
 from typing import Protocol
 import pygame
 
-from core.scenes_enum import ScenesEnum
+from constants.menus import ScenesEnum
 
 class SceneInterface(Protocol):
     

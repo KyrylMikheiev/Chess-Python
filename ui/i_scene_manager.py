@@ -1,6 +1,6 @@
 from typing import Protocol
 
-from core.scenes_enum import ScenesEnum
+from constants.menus import ScenesEnum
 
 """
     Methods that are allowed to be called within a scene.

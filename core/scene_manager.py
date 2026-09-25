@@ -1,6 +1,6 @@
 import pygame
 
-from constants import BG_COLOR, HEIGHT, WIDTH
+from constants.window import HEIGHT, WIDTH, BG_COLOR
 from constants.menus import ScenesEnum
 from ui.scene import Scene
 
