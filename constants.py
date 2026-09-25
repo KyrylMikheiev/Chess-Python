@@ -31,24 +31,6 @@ BUTTON_BG_HOVER_COLOR = "lightgray"
 BUTTON_FONT_COLOR = "black"
 BUTTON_FONT = pygame.font.SysFont(None, 40)
 
-#menus -------------------------------------------------------------------------------------
-MENUS = {
-    "main": [
-        ("Play", "go_to_color_menu"),
-        ("Statistics", "show_statistics"),
-        ("Options", "show_options"),
-        ("Quit", "quit_game"),
-    ],
-    "color select": [
-        ("Play as White", "start_game_white"),
-        ("Play as Black", "start_game_black"),
-        ("Back", "go_to_main_menu"),
-    ],
-    "in game": [
-        ("End the game", "abrupt_game")
-    ]
-}
-
 #engine-------------------------------------------------------------------------------------
 IMAGES = {}
 

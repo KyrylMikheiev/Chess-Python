@@ -10,6 +10,6 @@ MENUS_WITH_BUTTONS_AND_LINKS = {
         ("Back", ScenesEnum.MAIN_MENU),
     ],
     ScenesEnum.GAME_SCENE: [
-        ("to color menu", ScenesEnum.COLOR_MENU)
+        ("To Color Menu", ScenesEnum.COLOR_MENU)
     ]
 }
