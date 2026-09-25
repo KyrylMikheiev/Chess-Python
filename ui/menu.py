@@ -1,18 +1,21 @@
 import pygame
-from constants import BUTTON_HEIGHT, BUTTON_WIDTH, MENU_NAME_COLOR, MENU_NAME_FONT, MENUS
-from .menu_button import MenuButton
+from constants import BUTTON_HEIGHT, BUTTON_WIDTH, MENU_NAME_COLOR, MENU_NAME_FONT
+from core.MENUS_DICT import MENUS_WITH_BUTTONS_AND_LINKS
+from ui.menu_button import MenuButton
+from core.scenes_enum import ScenesEnum
 
 class Menu:
     
-    def __init__(self, menu_name):
-        self.menu = menu_name
-        self.buttons = []
+    def __init__(self, menu_name: ScenesEnum):
+        self.menu_name = menu_name
+        self.menu = MENUS_WITH_BUTTONS_AND_LINKS[self.menu_name]
+        self.buttons: list[MenuButton] = []
         self.create_buttons()
         font = MENU_NAME_FONT
-        self.title_text = font.render(self.menu, True, MENU_NAME_COLOR)
+        self.title_text = font.render(self.menu_name.value, True, MENU_NAME_COLOR)
     
     def create_buttons(self):
-        for (label, action_name) in MENUS[self.menu]:
+        for (label, action_name) in self.menu:
             button = MenuButton(label, action_name)
             self.buttons.append(button)
 
@@ -22,5 +25,4 @@ class Menu:
         for i, button in enumerate(self.buttons):
             x = (screen.get_size()[0] - BUTTON_WIDTH) // 2
             y = (screen.get_size()[1] - BUTTON_HEIGHT) // 2.5 + i * 70
-            button: MenuButton
             button.draw(x, y, screen)

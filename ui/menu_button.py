@@ -7,11 +7,11 @@ from constants import (
     BUTTON_BG_COLOR,
     BUTTON_BG_HOVER_COLOR,
 )
-
+from core.scenes_enum import ScenesEnum
 
 class MenuButton:
 
-    def __init__(self, label, action):
+    def __init__(self, label, action: ScenesEnum):
         self.label = label
         self.default_color = BUTTON_BG_COLOR
         self.hover_color = BUTTON_BG_HOVER_COLOR
