@@ -1,7 +1,19 @@
 import os
 
 import pygame
-from constants import *
+from constants.window import WIDTH, HEIGHT
+from constants.engine import ALL_PIECES
+from constants.fonts import IMAGES
+from constants.board import (
+    SQUARE_SIZE, 
+    x_offset,
+    y_offset,
+    WHITE,
+    BLACK,
+    MOVE_HIGHLIGHT_COLOR,
+    HIGHLIGHTED_SQUARE_COLOR,
+    LEGAL_MOVES_COLOR
+)
 
 class ChessUi:
     
@@ -85,7 +97,6 @@ class ChessUi:
     
     """
     def load_images(self):
-        pieces = ["wp", "wr", "wn", "wb", "wq", "wk", "bp", "br", "bn", "bb", "bq", "bk"]
-        for piece in pieces:
+        for piece in ALL_PIECES:
             IMAGES[piece] = pygame.image.load(os.path.join("assets", "images", f'{piece}.png'))
     

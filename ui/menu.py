@@ -1,8 +1,14 @@
 import pygame
-from constants import BUTTON_HEIGHT, BUTTON_WIDTH, MENU_NAME_COLOR, MENU_NAME_FONT
-from core.MENUS_DICT import MENUS_WITH_BUTTONS_AND_LINKS
+
+from constants.fonts import MENU_NAME_FONT
 from ui.menu_button import MenuButton
-from core.scenes_enum import ScenesEnum
+from constants.menus import (
+    BUTTON_HEIGHT, 
+    BUTTON_WIDTH, 
+    MENU_NAME_COLOR, 
+    MENUS_WITH_BUTTONS_AND_LINKS, 
+    ScenesEnum
+)
 
 class Menu:
     

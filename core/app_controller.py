@@ -1,5 +1,5 @@
 from core.scene_manager import SceneManager
-from core.scenes_enum import ScenesEnum
+from constants.menus import ScenesEnum
 
 class AppController:
     

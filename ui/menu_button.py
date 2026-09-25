@@ -1,13 +1,14 @@
 import pygame
-from constants import (
-    BUTTON_FONT,
+
+from constants.fonts import BUTTON_FONT
+from constants.menus import (
     BUTTON_FONT_COLOR,
     BUTTON_HEIGHT,
     BUTTON_WIDTH,
     BUTTON_BG_COLOR,
     BUTTON_BG_HOVER_COLOR,
+    ScenesEnum
 )
-from core.scenes_enum import ScenesEnum
 
 class MenuButton:
 

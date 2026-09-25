@@ -1,8 +1,7 @@
 import pygame
 
 from constants import BG_COLOR, HEIGHT, WIDTH
-from core.i_scene import SceneInterface
-from core.scenes_enum import ScenesEnum
+from constants.menus import ScenesEnum
 from ui.scene import Scene
 
 class SceneManager:

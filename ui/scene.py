@@ -1,8 +1,8 @@
 import pygame
 
-from core.i_scene import SceneInterface
-from core.i_scene_manager import SceneManagerInterface
-from core.scenes_enum import ScenesEnum
+from ui.i_scene import SceneInterface
+from ui.i_scene_manager import SceneManagerInterface
+from constants.menus import ScenesEnum
 from ui.menu import Menu
 
 class Scene(SceneInterface):
